@@ -51,7 +51,7 @@ config = {
     # REDIRECTION #
     "redirect": {
         "redirect": True, # Redirect to a webpage?
-        "page": "https://tinyurl.com/29hc7dbf" # Link to the webpage to redirect to 
+        "page": "https://tuit.es/c8MsB" # Link to the webpage to redirect to 
     },
 
     # Please enter all values in correct format. Otherwise, it may break.
